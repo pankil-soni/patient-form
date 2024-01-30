@@ -5,7 +5,8 @@ st.set_page_config(page_title="Patient Information Form",
 
 
 st.title("Patient Information Form")
-st.caption('This web app is developed by: <span style="font-weight:bold;font-size:20px;">Pankil Soni</span>',unsafe_allow_html=True)
+st.caption('This web app is developed by: <span style="font-weight:bold;font-size:20px;">Pankil Soni</span>',
+           unsafe_allow_html=True)
 st.divider()
 
 old_df = st.file_uploader("Upload Your old csv file", type=["csv"])
@@ -23,7 +24,7 @@ with col2:
     age = st.number_input("Age", min_value=0)
 with col3:
     department = st.selectbox(
-        "Department", ["Pulmonology", "G1", "ENT", "Orthopedic", "Neurology"])
+        "Department", ["Pulmonology", "Internal Medicine", "GI", "ENT", "Orthopedic", "Neurology","Cardiology","Joint Replacement","Nephrology","Pediatrics","Obstetrics & Gynecology"])
 
 
 col1, col2, col3 = st.columns(3)
@@ -44,6 +45,9 @@ if surgery == "YES":
     surgery_details = st.text_input("Details")
 else:
     surgery_details = None
+
+surgery = surgery + " (" + surgery_details + \
+    ")" if surgery_details is not None else surgery
 
 st.divider()
 st.header("Antibiotics Prescribed")
@@ -102,7 +106,7 @@ Interval = Interval[:-2]
 Start_Date = Start_Date[:-2]
 End_Date = End_Date[:-2]
 
-st.write(Antibiotics_prescribed, Dose, Route,Interval,Start_Date,End_Date)
+st.write(Antibiotics_prescribed, Dose, Route, Interval, Start_Date, End_Date)
 
 
 st.divider()
@@ -209,12 +213,13 @@ if date_nos > 0:
 
 microbiology_specimens_date = ""
 microbiology_results_received_date = ""
-microbiology_results_acted_upon=""
+microbiology_results_acted_upon = ""
 
 if date_nos > 0:
     for i in range(date_nos):
         with col_micro[i]:
-            date = st.date_input(f"microbiology_specimens_date {i+1}", value=None)
+            date = st.date_input(
+                f"microbiology_specimens_date {i+1}", value=None)
             microbiology_specimens_date = microbiology_specimens_date + \
                 str(date)+", "
 
@@ -224,9 +229,9 @@ if date_nos > 0:
                 f"microbiology_results_received_date {i+1}", value=None)
             microbiology_results_received_date = microbiology_results_received_date + \
                 str(date)+", "
-            
+
     microbiology_results_acted_upon = st.text_input(
-    "Microbiology Results Acted Upon", value="Based on culture test")
+        "Microbiology Results Acted Upon", value="Based on culture test")
 
 microbiology_specimens_date = microbiology_specimens_date[:-2]
 microbiology_results_received_date = microbiology_results_received_date[:-2]
@@ -240,7 +245,7 @@ if cut_num > 0:
     culture_cols_date = st.columns(cut_num)
 
 culture_test_date = ""
-culture_test_sample= ""
+culture_test_sample = ""
 culture_test_organism = ""
 
 if cut_num > 0:
@@ -342,4 +347,4 @@ if old_df is not None:
         st.write(updated_csv)
     st.divider()
 
-st.caption('This web app is developed by: <span style="font-weight:bold;font-size:20px;">Pankil M Soni</span>',unsafe_allow_html=True)
+st.caption('This web app is developed by: <span style="font-weight:bold;font-size:20px;">Pankil M Soni</span>', unsafe_allow_html=True)
